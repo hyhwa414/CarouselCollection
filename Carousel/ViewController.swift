@@ -81,6 +81,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! IconCell
+        cell.title = UILabel(frame: CGRect(x: 0, y: 0, width: cell.bounds.size.width, height: 40))
+        cell.title.text = String(indexPath.item%3)
+        cell.title.textColor = .black
+        cell.title.textAlignment = .center
+        cell.contentView.addSubview(cell.title)
+        
         return cell
     }
     
@@ -93,31 +99,29 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let cellSize = flowLayout.itemSize
         return UIEdgeInsets(top: 0, left: view.frame.width / 2 - cellSize.width / 2, bottom: 0, right: view.frame.width / 2 - cellSize.width / 2)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+    }
 }
 
 class IconCell: UICollectionViewCell {
+//    let imageView: UIImageView = {
+//        let iv = UIImageView()
+//        iv.contentMode = .scaleAspectFill
+//        iv.clipsToBounds = true
+//        iv.layer.cornerRadius = 13
+//        iv.backgroundColor = .blue
+//        return iv
+//    }()
     
-    let imageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.layer.cornerRadius = 13
-        iv.backgroundColor = .blue
-        return iv
-    }()
+    public var title = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
-    }
-    
-    func setup() {
-        addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        imageView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        imageView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        
+        backgroundColor = .blue
+        layer.cornerRadius = 13
     }
     
     required init?(coder aDecoder: NSCoder) {
